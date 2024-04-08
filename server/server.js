@@ -7,9 +7,11 @@
 const PORT = 8000
 
 // Import Required Modules
-const express = require("express")
 
+const express = require("express")
 const app = express() 
+
+const {runQueries} = require('../server/database.js')
 
 // Serve static files from the "/var/www/html" directory 
 app.use(express.static('/var/www/html'))
@@ -133,7 +135,7 @@ app.get('/flights/:airport_code', async (request, response) => {
           console.log(" +++++++++ calling runQueries() +++++++++++++++")
           
           // Used for lab 7
-          // runQueries(json)
+          runQueries(json)
 
           console.log(" +++++++++ completed runQueries() +++++++++++++++")
 
