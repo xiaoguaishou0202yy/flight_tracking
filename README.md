@@ -1,18 +1,17 @@
-FlightTracker Web App
+#FlightTracker Web App
 Welcome to the FlightTracker Web App
 
-Features
+##Features
 Live Flight Tracking: Track flights in real-time as they travel across the globe. View up-to-date departure and arrival times, flight delays, and current in-air status.
 Interactive Map: Utilize a dynamic map interface to visualize flight paths and current locations. Zoom in to see detailed routes and explore different regions and their aerial traffic.
 Search and Filter: Easily search for specific flights using flight numbers, airlines, or destinations. Apply filters to narrow down results based on your interests.
 Mobile Responsive Design: Access FlightTracker on any device. The responsive design ensures that you can track flights whether you're on a desktop at home or using a mobile device on the go.
 User-friendly Interface: Designed with usability in mind, the interface is intuitive and easy to navigate, making flight tracking a seamless experience.
-Technologies Used
+##Technologies Used
 Leaflet.js: For interactive map functionality that allows users to track flights visually on a global map.
 Bootstrap: For a responsive and mobile-first design that is accessible on all devices and screen sizes.
 JavaScript: For client-side scripting to handle real-time data fetching and dynamic content updates.
-
-Contributing
+##Contributing
 Contributions to FlightTracker are welcome! If you have suggestions on how to improve the app or add new features, please feel free to fork the repository, make changes, and submit a pull request.
 
 
