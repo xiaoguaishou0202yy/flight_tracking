@@ -8,7 +8,7 @@ Welcome to the **FlightTracker Web App**, a comprehensive aviation tracking tool
     3. Departure and Arrival Airports: IATA codes of the originating and destination airports.
     4. Departure and Arrival Times: Time of arrival and departure in each airport time zone.
     5. Duration: Estimated flight time (in minutes).          
-**Important Note**: Currently, the search bar accepts only IATA city codes as inputs. To retrieve the correct city codes that can be used here, please use the following URL: https://airlabs.co/api/v9/cities?api_key={&your_airlabs_api_key_here}&country_code=US.
+**Important Note**: Currently, the search bar accepts only IATA city codes as inputs. To retrieve the correct city codes for US cities that can be used here, please use the following URL: https://airlabs.co/api/v9/cities?api_key={&your_airlabs_api_key_here}&country_code=US.
 2. Real-Time Location Tracking: Displays the user's current location and automatically identifies nearby airports, making it easy to find the nearest departure points no matter where you are.
 3. Destination Flight Information: For flights arriving at nearby airports, the app provides comprehensive details such as altitude, direction, latitude, longitude, and current flight status.
 
