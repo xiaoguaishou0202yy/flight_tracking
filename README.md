@@ -1,5 +1,5 @@
 # FlightTracker Web App
-Welcome to the FlightTracker Web App, a comprehensive aviation tracking tool designed for both aviation enthusiasts and travelers. This application provides detailed, real-time information on flights between cities, nearby airports, and flights arriving at nearby destinations.
+Welcome to the **FlightTracker Web App**, a comprehensive aviation tracking tool designed for both aviation enthusiasts and travelers. This application provides detailed, real-time information on flights between cities, nearby airports, and flights arriving at nearby destinations.
 
 ## Features
 1. City-to-City Flight Search: Search for all scheduled flights between two cities, with detailed information including the days of the week each flight operates, flight numbers, departure and arrival airports, as well as departure and arrival times.
@@ -12,7 +12,7 @@ Welcome to the FlightTracker Web App, a comprehensive aviation tracking tool des
 3. Leaflet.js and Bootstrap: Leaflet.js is used for interactive mapping capabilities that track flights in real-time, while Bootstrap frameworks ensure a responsive and mobile-first user interface.
 
 ## Project Structure
-Final Project Files Folder: Contains all the essential files needed to run the application:
+**Final Project Files Folder**: Contains all the essential files needed to run the application:
 1. server.js: Configures the server and sets up API endpoints.
 2. app.js: Handles the business logic of the application, interfacing between the frontend and the backend.
 3. index.html: Serves as the entry point of the application, hosting the user interface.
