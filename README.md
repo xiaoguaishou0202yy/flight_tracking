@@ -1,16 +1,16 @@
 # FlightTracker Web App
-Welcome to the FlightTracker Web App
+Welcome to the FlightTracker Web App, a comprehensive aviation tracking tool designed for both aviation enthusiasts and travelers. This application provides detailed, real-time information on flights between cities, nearby airports, and flights arriving at nearby destinations.
 
 ## Features
-1. Live Flight Tracking: Track flights in real-time as they travel across the globe. View up-to-date departure and arrival times, flight delays, and current in-air status.
-2. Interactive Map: Utilize a dynamic map interface to visualize flight paths and current locations. Zoom in to see detailed routes and explore different regions and their aerial traffic.
-3. Search and Filter: Easily search for specific flights using flight numbers, airlines, or destinations. Apply filters to narrow down results based on your interests.
-4. Mobile Responsive Design: Access FlightTracker on any device. The responsive design ensures that you can track flights whether you're on a desktop at home or using a mobile device on the go.
-5. User-friendly Interface: Designed with usability in mind, the interface is intuitive and easy to navigate, making flight tracking a seamless experience.
+1. City-to-City Flight Search: Search for all scheduled flights between two cities, with detailed information including the days of the week each flight operates, flight numbers, departure and arrival airports, as well as departure and arrival times.
+2. Real-Time Location Tracking: Displays the user's current location and automatically identifies nearby airports, making it easy to find the nearest departure points no matter where you are.
+3. Destination Flight Information: For flights arriving at nearby airports, the app provides comprehensive details such as altitude, direction, latitude, longitude, and current flight status.
+
 ## Technologies Used
-1. Leaflet.js: For interactive map functionality that allows users to track flights visually on a global map.
-2. Bootstrap: For a responsive and mobile-first design that is accessible on all devices and screen sizes.
-3. JavaScript: For client-side scripting to handle real-time data fetching and dynamic content updates.
+1. Leaflet.js: Powers the interactive maps that display real-time locations.
+2. Bootstrap: Ensures a responsive layout that adapts seamlessly to different device screens, providing an optimal viewing experience on both desktops and mobile devices.
+3. JavaScript: Manages the application logic, from handling user input to fetching and displaying flight data.
+
 ## Contributing
 Contributions to FlightTracker are welcome! If you have suggestions on how to improve the app or add new features, please feel free to fork the repository, make changes, and submit a pull request.
 
