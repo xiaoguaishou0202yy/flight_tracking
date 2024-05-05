@@ -1,2 +1,2 @@
 id,time_stamp,reg_number,alt,dir,speed,lat,lng,dep_iata,flight_icao,status
-1,05/05/2024 06:22:57,N748UW,11617,34.9,1015,38.123865,-94.025035,DFW,AAL595,en-route
+1,05/05/2024 06:24:17,N748UW,11610,35,1009,38.272598,-93.89791,DFW,AAL595,en-route
