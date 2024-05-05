@@ -160,37 +160,6 @@ app.post('/searchFlights', async (request, response) => {
 
 
 
-    async function fetchCityIATACode(cityName) {
-        const url = `https://airlabs.co/api/v9/cities?api_key=${apiKey}&city_name=${encodeURIComponent(cityName)}`;
-
-        try {
-            const response = await fetch(url);
-            const data = await response.json();
-            if (data && data.response && data.response.length > 0) {
-                // Assuming the first result is the most relevant
-                return data.response[0].city_code;
-            } else {
-                throw new Error('No data found for this city');
-            }
-        } catch (error) {
-            console.error('Error fetching IATA Code for city:', cityName, error);
-            return null; // Or handle the error appropriately
-        }
-    }
-
-    async function getCityCodes() {
-        const cityCode1 = await fetchCityIATACode(city1);
-        const cityCode2 = await fetchCityIATACode(city2);
-
-        console.log('IATA Code for', city1, ':', cityCode1);
-        console.log('IATA Code for', city2, ':', cityCode2);
-
-        // Store the city codes in variables or use them as needed
-        // Example: let iataCodeCity1 = cityCode1; let iataCodeCity2 = cityCode2;
-    }
-
-
-
     // Fetch nearby airports for departure city
     const departureAirportsResponse = await fetch(`https://airlabs.co/api/v9/airports?api_key=${myFlightsAPIKey}&city_code=${departureCity}`);
     const departureAirportsData = await departureAirportsResponse.json();
@@ -237,9 +206,9 @@ app.post('/searchFlights', async (request, response) => {
     // List of specific airlines to filter by their names
     const specificAirlines = [
       //"Delta Air Lines", 
-      //"Southwest Airlines", 
-      //"United Airlines", 
-      "American Airlines", 
+      "Southwest Airlines", 
+      "United Airlines", 
+      //"American Airlines", 
       //"Alaska Airlines"
     ];
 
@@ -285,7 +254,7 @@ app.post('/searchFlights', async (request, response) => {
               const routesResponse = await fetch(routesRequestUrl);
               const routesData = await routesResponse.json();
 
-              //console.log('API response:', JSON.stringify(routesData, null, 2));
+              console.log('API response:', JSON.stringify(routesData, null, 2));
 
               // Ensure that routesData is actually an array
               if (Array.isArray(routesData.response)) {
