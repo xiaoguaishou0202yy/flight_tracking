@@ -2,7 +2,14 @@
 Welcome to the **FlightTracker Web App**, a comprehensive aviation tracking tool designed for both aviation enthusiasts and travelers. This application provides detailed, real-time information on flights between cities, nearby airports, and flights arriving at nearby destinations.
 
 ## Features
-1. City-to-City Flight Search: Search for all scheduled flights between two cities, with detailed information including the days of the week each flight operates, flight numbers, departure and arrival airports, as well as departure and arrival times.
+1. City-to-City Flight Search: Search for all scheduled flights between two cities with this feature. The search functionality provides detailed information, including:
+1. Days of the Week: Specific days on which each flight operates.
+2. Flight Numbers: Unique identifiers for each flight.
+3. Departure and Arrival Airports: IATA codes of the originating and destination airports.
+4. Departure and Arrival Times: Local time.
+5. Duration:
+6. Statu
+But for now, the search bar can only take the iata city codes as inputs. To get correct city codes that can be used here, users can use this url: https://airlabs.co/api/v9/cities?api_key={&your_airlabs_api_key_here}&country_code=US.
 2. Real-Time Location Tracking: Displays the user's current location and automatically identifies nearby airports, making it easy to find the nearest departure points no matter where you are.
 3. Destination Flight Information: For flights arriving at nearby airports, the app provides comprehensive details such as altitude, direction, latitude, longitude, and current flight status.
 
