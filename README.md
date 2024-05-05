@@ -7,9 +7,15 @@ Welcome to the FlightTracker Web App, a comprehensive aviation tracking tool des
 3. Destination Flight Information: For flights arriving at nearby airports, the app provides comprehensive details such as altitude, direction, latitude, longitude, and current flight status.
 
 ## Technologies Used
-1. Leaflet.js: Powers the interactive maps that display real-time locations.
-2. Bootstrap: Ensures a responsive layout that adapts seamlessly to different device screens, providing an optimal viewing experience on both desktops and mobile devices.
-3. JavaScript: Manages the application logic, from handling user input to fetching and displaying flight data.
+1. AWS Backend Stack: The application is powered by various AWS services, providing scalable and reliable backend infrastructure. 
+2. JavaScript and Node.js: Utilizes JavaScript for frontend and backend logic, with Node.js running the server environment. This setup facilitates a non-blocking, event-driven architecture capable of handling a large number of simultaneous connections with high throughput.
+3. Leaflet.js and Bootstrap: Leaflet.js is used for interactive mapping capabilities that track flights in real-time, while Bootstrap frameworks ensure a responsive and mobile-first user interface.
+
+## Project Structure
+Final Project Files Folder: Contains all the essential files needed to run the application:
+1. server.js: Configures the server and sets up API endpoints.
+2. app.js: Handles the business logic of the application, interfacing between the frontend and the backend.
+3. index.html: Serves as the entry point of the application, hosting the user interface.
 
 ## Contributing
 Contributions to FlightTracker are welcome! If you have suggestions on how to improve the app or add new features, please feel free to fork the repository, make changes, and submit a pull request.
