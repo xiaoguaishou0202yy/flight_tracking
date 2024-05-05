@@ -16,6 +16,10 @@ const {runQueries} = require('../server/database.js')
 // Serve static files from the "/var/www/html" directory 
 app.use(express.static('/var/www/html'))
 
+// Middleware to parse JSON bodies
+app.use(express.json());
+
+
 const cors = require("cors")
 
 // Allow us to load environment variables from the .env file
@@ -100,52 +104,229 @@ app.get('/flights/:airport_code', async (request, response) => {
   console.log("in " + scriptName + " ...")
   try {
 
+      // Airport Code Parameter 
+      console.log(scriptName + " request.params.airport_code: " + request.params.airport_code)
 
-          // Airport Code Parameter 
-          console.log(scriptName + " request.params.airport_code: " + request.params.airport_code)
+      var my_airport_code = request.params.airport_code
+      console.log(scriptName + " airport_code: " + my_airport_code)
 
-          var my_airport_code = request.params.airport_code
-          console.log(scriptName + " airport_code: " + my_airport_code)
+      // Check if airport_code is being passed in
+      console.log(scriptName + "  length of airport code: " + my_airport_code.length)
 
-          // Check if airport_code is being passed in
-          console.log(scriptName + "  length of airport code: " + my_airport_code.length)
+      if (my_airport_code.length < 1) {
 
-          if (my_airport_code.length < 1) {
+        my_airport_code = process.env.defaultAirportCode
+        alert("Missing airport code.  Default set to: " + my_airport_code)
+      }
 
-            my_airport_code = process.env.defaultAirportCode
-            alert("Missing airport code.  Default set to: " + my_airport_code)
-          }
+      // Departing from Airport
+      // const api_url = 'https://airlabs.co/api/v9/flights?api_key=' + myFlightsAPIKey + '&dep_iata=' + my_airport_code
 
-          // Departing from Airport
-          // const api_url = 'https://airlabs.co/api/v9/flights?api_key=' + myFlightsAPIKey + '&dep_iata=' + my_airport_code
+      // Arrivals
+      const api_url = 'https://airlabs.co/api/v9/flights?api_key=' + myFlightsAPIKey + '&arr_iata=' + my_airport_code
 
-          // Arrivals
-          const api_url = 'https://airlabs.co/api/v9/flights?api_key=' + myFlightsAPIKey + '&arr_iata=' + my_airport_code
+      console.log("*my airport code: " + api_url)
 
-          console.log("*my airport code: " + api_url)
+      const fetch_response = await fetch (api_url);
+      const json = await fetch_response.json();
 
-          const fetch_response = await fetch (api_url);
-          const json = await fetch_response.json();
+      console.log(json)
 
-          console.log(json)
+      // Read the response stream and produce and return a JavaScript object
+      response.json(json);
 
-          // Read the response stream and produce and return a JavaScript object
-          response.json(json);
+      console.log(" +++++++++ calling runQueries() +++++++++++++++")
+      
+      // Used for lab 7
+      runQueries(json)
 
-          console.log(" +++++++++ calling runQueries() +++++++++++++++")
-          
-          // Used for lab 7
-          runQueries(json)
+      console.log(" +++++++++ completed runQueries() +++++++++++++++")
 
-          console.log(" +++++++++ completed runQueries() +++++++++++++++")
-
-          console.log(`${scriptName} ++++++++++++ done with getFlights airport code: ++++++++++++++` + my_airport_code)
-        }
+      console.log(`${scriptName} ++++++++++++ done with getFlights airport code: ++++++++++++++` + my_airport_code)
+    }
   catch (error) {
     console.error(scriptName + " Error getting flights for airport: " + error.stack)
   }
 
 }); //end flights
+
+// Flight search route
+app.post('/searchFlights', async (request, response) => {
+  try {
+    // Retrieve departure and destination cities from the request body
+    const { departureCity, destinationCity } = request.body;
+    console.log(request.body.departureCity, request.body.destinationCity)
+
+
+
+
+    async function fetchCityIATACode(cityName) {
+        const url = `https://airlabs.co/api/v9/cities?api_key=${apiKey}&city_name=${encodeURIComponent(cityName)}`;
+
+        try {
+            const response = await fetch(url);
+            const data = await response.json();
+            if (data && data.response && data.response.length > 0) {
+                // Assuming the first result is the most relevant
+                return data.response[0].city_code;
+            } else {
+                throw new Error('No data found for this city');
+            }
+        } catch (error) {
+            console.error('Error fetching IATA Code for city:', cityName, error);
+            return null; // Or handle the error appropriately
+        }
+    }
+
+    async function getCityCodes() {
+        const cityCode1 = await fetchCityIATACode(city1);
+        const cityCode2 = await fetchCityIATACode(city2);
+
+        console.log('IATA Code for', city1, ':', cityCode1);
+        console.log('IATA Code for', city2, ':', cityCode2);
+
+        // Store the city codes in variables or use them as needed
+        // Example: let iataCodeCity1 = cityCode1; let iataCodeCity2 = cityCode2;
+    }
+
+
+
+    // Fetch nearby airports for departure city
+    const departureAirportsResponse = await fetch(`https://airlabs.co/api/v9/airports?api_key=${myFlightsAPIKey}&city_code=${departureCity}`);
+    const departureAirportsData = await departureAirportsResponse.json();
+
+
+    //console.log(departureAirportsData);
+    const valid_depa = departureAirportsData.response.filter(airport => airport.iata_code !== null);
+    const departureAirports = valid_depa.map(dep_airport => {
+        return {
+            name: dep_airport.name,
+            iata_code: dep_airport.iata_code,
+            icao_code: dep_airport.icao_code,
+            latitude: dep_airport.lat,
+            longitude: dep_airport.lng,
+            country_code: dep_airport.country_code
+        };
+    });
+
+    departureAirports.forEach(dep_airport => {
+      console.log(dep_airport.name); // This will log the name of each airport to the console
+    });
+
+    // Fetch nearby airports for destination city
+    const destinationAirportsResponse = await fetch(`https://airlabs.co/api/v9/airports?city_code=${destinationCity}&api_key=${myFlightsAPIKey}`);
+    const destinationAirportsData = await destinationAirportsResponse.json();
+    //console.log(destinationAirportsData);
+    const valid_desa = destinationAirportsData.response.filter(airport => airport.iata_code !== null);
+    const destinationAirports = valid_desa.map(des_airport => {
+        return {
+            name: des_airport.name,
+            iata_code: des_airport.iata_code,
+            icao_code: des_airport.icao_code,
+            latitude: des_airport.lat,
+            longitude: des_airport.lng,
+            country_code: des_airport.country_code
+        };
+    });
+
+    destinationAirports.forEach(des_airport => {
+      console.log(des_airport.name); // This will log the name of each airport to the console
+    });
+
+
+    // List of specific airlines to filter by their names
+    const specificAirlines = [
+      //"Delta Air Lines", 
+      //"Southwest Airlines", 
+      //"United Airlines", 
+      "American Airlines", 
+      //"Alaska Airlines"
+    ];
+
+    // Fetch nearby airports for destination city
+    const airlinesResponse = await fetch(`https://airlabs.co/api/v9/airlines?country_code=US&api_key=${myFlightsAPIKey}`);
+    if (!airlinesResponse.ok) {
+      throw new Error(`API responded with status: ${airlinesResponse.status}`);
+    }
+    const airlinesData = await airlinesResponse.json();
+
+    const valid_airlines = airlinesData.response.filter(airline => specificAirlines.includes(airline.name));
+    //console.log(destinationAirportsData);
+    if (!airlinesResponse.ok) {
+      console.error('API responded with an error:', airlinesData.message); // Assuming the API sends back an error message
+      throw new Error(`API responded with status: ${airlinesResponse.status}`);
+    }
+
+    const airlines = valid_airlines.map(airline => {
+        return {
+            name: airline.name,
+            iata_code: airline.iata_code,
+            icao_code: airline.icao_code,
+            country_code: airline.country_code
+        };
+    });
+
+    airlines.forEach(airline => {
+      console.log(airline.name,airline.iata_code,airline.icao_code); // This will log the name of each airport to the console
+    });
+
+
+
+
+    let allRoutes = []; // Array to store all routes
+
+    async function fetchRoutes() {
+      for (const dep_airport of departureAirports) {
+        for (const des_airport of destinationAirports) {
+          for (const airline of airlines) {
+            const routesRequestUrl = `https://airlabs.co/api/v9/routes?api_key=${myFlightsAPIKey}&dep_iata=${dep_airport.iata_code}&dep_icao=${dep_airport.icao_code}&arr_iata=${des_airport.iata_code}&arr_icao=${des_airport.icao_code}&airline_iata=${airline.iata_code}&airline_icao=${airline.icao_code}`;
+            
+            try {
+              const routesResponse = await fetch(routesRequestUrl);
+              const routesData = await routesResponse.json();
+
+              //console.log('API response:', JSON.stringify(routesData, null, 2));
+
+              // Ensure that routesData is actually an array
+              if (Array.isArray(routesData.response)) {
+                  const routes = routesData.response.map(route => ({
+                      flight_iata: route.flight_iata,
+                      dep_iata: route.dep_iata,
+                      dep_time: route.dep_time,
+                      arr_iata: route.arr_iata,
+                      arr_time: route.arr_time,
+                      duration: route.duration,
+                      days: route.days,
+                      aircraft_icao: route.aircraft_icao
+                  }));
+                  allRoutes.push(...routes);
+              } else {
+                  console.error('Expected an array but got:', typeof routesData);
+              }
+
+                
+            } catch (error) {
+              console.error('Error fetching route data:', error);
+            }
+          }
+        }
+      }
+    }
+  
+    console.log(" +++++++++ fetching routes +++++++++++++++")
+    await fetchRoutes();
+    console.log("+++++++++ Fetching routes complete ++++++++++++++");
+
+    response.json({routes: allRoutes});  // Send only the routes data back to client
+
+
+    
+  } catch (error) {
+    console.error('Search Flights Error:', error);
+    response.status(500).send('Internal Server Error');
+  }
+});
+
 
 // --------------------------------------------------
 // Nearby Airports Route with Lat/Long as Parameters
@@ -204,6 +385,8 @@ app.get('/nearbyAirports/:latitude,:longitude', async (request, response) => {
         response.json(json);
 
 }
+
+
 catch (error) {
     console.error("Error getting nearby airport: " + error)
 
